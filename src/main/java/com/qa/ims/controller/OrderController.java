@@ -68,6 +68,19 @@ public class OrderController implements CrudController<Order> {
 			LOGGER.info("Order Updated");
 			return order;
 		}
+		
+		/**
+		 * calculates total of an existing order by taking in user input
+		 */
+//		@Override
+//		public Order calculate() {
+//			LOGGER.info("Please enter the id of the order you would like to calculate");
+//			Long id = utils.getLong();
+//			
+//			Order order = orderDAO.update(new Order(id, customerId, itemId));
+//			LOGGER.info("Order Updated");
+//			return order;
+//		}
 
 		/**
 		 * Deletes an existing order by the id of the customer

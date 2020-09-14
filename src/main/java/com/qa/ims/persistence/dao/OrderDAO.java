@@ -110,7 +110,25 @@ public class OrderDAO implements Dao<Order> {
 		}
 		return null;
 	}
-
+	/**
+	 * Calculates cost of an order in the database
+	 * 
+	 * @param order - takes in an order object, the id field will be used to
+	 *                 calculate that order in the database
+	 * @return
+	 */
+//	@Override
+//	public Order calculate(Order order) {
+//		try (Connection connection = DBUtils.getInstance().getConnection();
+//				Statement statement = connection.createStatement();) {
+//			statement.executeUpdate("update orders set fk_customer_id ='" + order.getCustomerId() + "' where id =" + order.getId());
+//			return readOrder(order.getId());
+//		} catch (Exception e) {
+//			LOGGER.debug(e);
+//			LOGGER.error(e.getMessage());
+//		}
+//		return null;
+//	}
 	/**
 	 * Deletes an order in the database
 	 * 
