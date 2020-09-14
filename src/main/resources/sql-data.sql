@@ -9,3 +9,4 @@ INSERT INTO `ims`.`items` (`item_name`, `price`) VALUES ('Bread', '0.90');
 INSERT INTO `ims`.`items` (`item_name`, `price`) VALUES ('Broom', '4.99');
 
 INSERT INTO `ims`.`orders` (`fk_customer_id`, `fk_item_id`) VALUES ('1', '1');
+INSERT INTO `ims`.`orders` (`fk_customer_id`, `fk_item_id`) VALUES ('1', '2');
