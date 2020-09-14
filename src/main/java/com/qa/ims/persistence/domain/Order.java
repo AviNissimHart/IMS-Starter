@@ -40,6 +40,11 @@ public class Order {
 	public void setItemId(Long itemId) {
 		this.itemId = itemId;
 	}
+
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", customerId=" + customerId + ", itemId=" + itemId + "]";
+	}
 	
 
 
