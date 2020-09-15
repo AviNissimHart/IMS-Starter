@@ -4,7 +4,7 @@ public class Order {
 
 	private Long id;
 	private Long customerId;
-	//private Long itemId;
+	private Long itemId;
 	
 	public Order(Long customerId) {
 		this.setCustomerId(customerId);
@@ -32,6 +32,14 @@ public class Order {
 	}
 
 	
+
+	public Long getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(Long itemId) {
+		this.itemId = itemId;
+	}
 
 	@Override
 	public String toString() {

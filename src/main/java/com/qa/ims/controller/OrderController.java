@@ -60,15 +60,34 @@ public class OrderController implements CrudController<Order> {
 		public Order update() {
 			LOGGER.info("Please enter the id of the order you would like to update");
 			Long id = utils.getLong();
-			LOGGER.info("Please enter a customer id");
-			Long customerId = utils.getLong();
-			LOGGER.info("Please enter an item id");
+			LOGGER.info("Would you like to ADDTO or DELFROM this order?");
+			String orderInput = utils.getString();
+			if (orderInput == "ADDTO") {
+				LOGGER.info("Enter the itemID of the item you wish to add");
+				Long iid = utils.getLong();
+				Order order = orderDAO.addToOrder(new Order(id, iid));
+				//need to adjust this
+			} else if (orderInput == "DELFROM") {
+				LOGGER.info("Enter the itemID of the item you wish to delete");
+				Long iid = utils.getLong();
+				//Order order = orderDAO.delFromOrder(new Order(id, iid));
+				// uncertain
+			} else {
+				LOGGER.error("Invalid selection please try again");
+			}
+			
+			//Long customerId = utils.getLong();
+			//LOGGER.info("Please enter an item id");
 			//Long itemId = utils.getLong();
-			Order order = orderDAO.update(new Order(id, customerId));
+			Order order = orderDAO.update(new Order(id));
 			LOGGER.info("Order Updated");
 			return order;
 		}
 		
+//		public Order addToOrder() {
+//			
+//		}
+//		
 		/**
 		 * calculates total of an existing order by taking in user input
 		 */
