@@ -19,8 +19,8 @@ public class OrderDAO implements Dao<Order> {
 	@Override
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
 		Long id = resultSet.getLong("oid");
-		Long customerId = resultSet.getLong("fk_customer_id");
-		Long itemId = resultSet.getLong("fk_item_id");
+		Long customerId = resultSet.getLong("fk_cid");
+		Long itemId = resultSet.getLong("fk_iid");
 		return new Order(id, customerId, itemId);
 	}
 	
@@ -68,7 +68,7 @@ public class OrderDAO implements Dao<Order> {
 	public Order create(Order order) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("INSERT INTO orders(fk_customer_id, fk_item_id) values('" + order.getCustomerId()
+			statement.executeUpdate("INSERT INTO orders(fk_cid, fk_iid) values('" + order.getCustomerId()
 					+ "','" + order.getItemId() + "')");
 			return readLatest();
 		} catch (Exception e) {
@@ -102,7 +102,7 @@ public class OrderDAO implements Dao<Order> {
 	public Order update(Order order) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("update orders set fk_customer_id ='" + order.getCustomerId() + "' where oid =" + order.getId());
+			statement.executeUpdate("update orders set fk_cid ='" + order.getCustomerId() + "' where oid =" + order.getId());
 			return readOrder(order.getId());
 		} catch (Exception e) {
 			LOGGER.debug(e);
@@ -121,7 +121,7 @@ public class OrderDAO implements Dao<Order> {
 //	public Order calculate(Order order) {
 //		try (Connection connection = DBUtils.getInstance().getConnection();
 //				Statement statement = connection.createStatement();) {
-//			statement.executeUpdate("update orders set fk_customer_id ='" + order.getCustomerId() + "' where oid =" + order.getId());
+//			statement.executeUpdate("update orders set fk_cid ='" + order.getCustomerId() + "' where oid =" + order.getId());
 //			return readOrder(order.getId());
 //		} catch (Exception e) {
 //			LOGGER.debug(e);
