@@ -13,3 +13,9 @@ INSERT INTO `ims`.`orders` (`fk_cid`) VALUES ('1');
 INSERT INTO `ims`.`orders` (`fk_cid`) VALUES ('1');
 INSERT INTO `ims`.`orders` (`fk_cid`) VALUES ('1');
 INSERT INTO `ims`.`orders` (`fk_cid`) VALUES ('2');
+
+
+INSERT INTO `ims`.`orderitems` (`fk_iid`, `fk_oid`) VALUES ('1','2');
+INSERT INTO `ims`.`orderitems` (`fk_iid`, `fk_oid`) VALUES ('2','2');
+INSERT INTO `ims`.`orderitems` (`fk_iid`, `fk_oid`) VALUES ('5','2');
+INSERT INTO `ims`.`orderitems` (`fk_iid`, `fk_oid`) VALUES ('5','2');
