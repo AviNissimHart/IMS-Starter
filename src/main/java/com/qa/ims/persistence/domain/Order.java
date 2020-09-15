@@ -4,17 +4,15 @@ public class Order {
 
 	private Long id;
 	private Long customerId;
-	private Long itemId;
+	//private Long itemId;
 	
-	public Order(Long customerId, Long itemId) {
+	public Order(Long customerId) {
 		this.setCustomerId(customerId);
-		this.setItemId(itemId);
 	}
 	
-	public Order(Long id, Long customerId, Long itemId) {
+	public Order(Long id, Long customerId) {
 		this.setId(id);
 		this.setCustomerId(customerId);
-		this.setItemId(itemId);
 	}
 
 	public Long getId() {
@@ -33,17 +31,11 @@ public class Order {
 		this.customerId = customerId;
 	}
 
-	public Long getItemId() {
-		return itemId;
-	}
-
-	public void setItemId(Long itemId) {
-		this.itemId = itemId;
-	}
+	
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", customerId=" + customerId + ", itemId=" + itemId + "]";
+		return "Order [id=" + id + ", customerId=" + customerId + "]";
 	}
 	
 

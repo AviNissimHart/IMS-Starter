@@ -20,8 +20,8 @@ public class OrderDAO implements Dao<Order> {
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
 		Long id = resultSet.getLong("oid");
 		Long customerId = resultSet.getLong("fk_cid");
-		Long itemId = resultSet.getLong("fk_iid");
-		return new Order(id, customerId, itemId);
+		//Long itemId = resultSet.getLong("fk_iid");
+		return new Order(id, customerId);
 	}
 	
 	/**
@@ -68,8 +68,8 @@ public class OrderDAO implements Dao<Order> {
 	public Order create(Order order) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("INSERT INTO orders(fk_cid, fk_iid) values('" + order.getCustomerId()
-					+ "','" + order.getItemId() + "')");
+			statement.executeUpdate("INSERT INTO orders(fk_cid) values('" + order.getCustomerId()
+					+ "')");
 			return readLatest();
 		} catch (Exception e) {
 			LOGGER.debug(e);
