@@ -18,7 +18,7 @@ public class ItemDAO implements Dao<Item> {
 	
 	@Override
 	public Item modelFromResultSet(ResultSet resultSet) throws SQLException {
-		Long id = resultSet.getLong("id");
+		Long id = resultSet.getLong("iid");
 		String itemName = resultSet.getString("item_name");
 		float price = resultSet.getFloat("price");
 		return new Item(id, itemName, price);
@@ -47,7 +47,7 @@ public class ItemDAO implements Dao<Item> {
 	public Item readLatest() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM items ORDER BY id DESC LIMIT 1");) {
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM items ORDER BY iid DESC LIMIT 1");) {
 			resultSet.next();
 			return modelFromResultSet(resultSet);
 		} catch (Exception e) {
@@ -79,7 +79,7 @@ public class ItemDAO implements Dao<Item> {
 	public Item readItem(Long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM items where id = " + id);) {
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM items where iid = " + id);) {
 			resultSet.next();
 			return modelFromResultSet(resultSet);
 		} catch (Exception e) {
@@ -100,7 +100,7 @@ public class ItemDAO implements Dao<Item> {
 	public Item update(Item item) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("update items set item_name ='" + item.getItemName() + "' where id =" + item.getId());
+			statement.executeUpdate("update items set item_name ='" + item.getItemName() + "' where iid =" + item.getId());
 			return readItem(item.getId());
 		} catch (Exception e) {
 			LOGGER.debug(e);
@@ -118,7 +118,7 @@ public class ItemDAO implements Dao<Item> {
 	public int delete(long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
-			return statement.executeUpdate("delete from items where id = " + id);
+			return statement.executeUpdate("delete from items where iid = " + id);
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
