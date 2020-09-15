@@ -110,6 +110,37 @@ public class OrderDAO implements Dao<Order> {
 		}
 		return null;
 	}
+	
+	//i dont know if this will work but i think the logic is there
+
+	public Order addToOrder(Order order) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();) {
+			statement.executeUpdate("insert into orderitems (`fk_iid`,`fk_oid`) values('" + order.getItemId() + "', '" + order.getId() + "'");
+			//this should be the correct way to insert it
+			return readOrder(order.getId());
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	}
+	
+
+	public Order delFromOrder(Order order) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();) {
+			statement.executeUpdate("delete from orderitems where (fk_iid ='" + order.getItemId() + " && fk_oid ='" + order.getId() + "'");
+			//this is the correct way to delete an order item from the table
+			return readOrder(order.getId());
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	}
+	
+	
 	/**
 	 * Calculates cost of an order in the database
 	 * 
