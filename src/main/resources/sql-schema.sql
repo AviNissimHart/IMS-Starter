@@ -22,14 +22,14 @@ CREATE TABLE IF NOT EXISTS `ims`.`orders` (
     `oid` INT(11) NOT NULL AUTO_INCREMENT,
     `fk_cid` INT(11) NOT NULL,
     PRIMARY KEY (`oid`),
-    FOREIGN KEY (`fk_cid`) REFERENCES customers(`cid`)
+    CONSTRAINT (`orders_ibfk_1`) FOREIGN KEY (`fk_cid`) REFERENCES customers(`cid`) 
 );
 
 USE `ims`;
 CREATE TABLE IF NOT EXISTS `ims`.`orderItems` (
     `oiid` INT(11) NOT NULL AUTO_INCREMENT,
-    `fk_iid` INT(11) NOT NULL,
     `fk_oid` INT(11) NOT NULL,
+    `fk_iid` INT(11) NOT NULL,
     PRIMARY KEY (`oiid`),
     FOREIGN KEY (`fk_oid`) REFERENCES orders(`oid`),
     FOREIGN KEY (`fk_iid`) REFERENCES items(`iid`)

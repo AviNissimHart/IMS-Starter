@@ -1,6 +1,7 @@
 package com.qa.ims.persistence.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -112,28 +113,35 @@ public class OrderDAO implements Dao<Order> {
 	}
 	
 	//i dont know if this will work but i think the logic is there
+	//PreparedStatement statement = connection.prepareStatement("INSERT INTO orderline (order_id, item_id) VALUES (?, ?)");
 
-	public Order addToOrder(Order order) {
+	public Order addToOrder(Long oid, Long iid) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
-				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("insert into orderitems (`fk_iid`,`fk_oid`) values('" + order.getItemId() + "', '" + order.getId() + "'");
+				PreparedStatement statement = connection.prepareStatement("INSERT INTO orderitems (`fk_oid`, `fk_iid`) VALUES (?, ?)");) {
+			statement.setLong(1, oid);
+			statement.setLong(2, iid);
+			statement.executeUpdate();
 			//this should be the correct way to insert it
-			return readOrder(order.getId());
+			
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
-		return null;
+		return readOrder(oid);
 	}
 	
 
-	public Order delFromOrder(Order order) {
+	public Order delFromOrder(Long oid, Long iid) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
-				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("delete from orderitems where (fk_iid ='" + order.getItemId() + " && fk_oid ='" + order.getId() + "'");
+				PreparedStatement statement = connection.prepareStatement("DELETE FROM orderitems (`fk_oid`, `fk_iid`) VALUES (?, ?)");) {
+			statement.setLong(1, oid);
+			statement.setLong(2, iid);
+			statement.executeUpdate();
+				
+			//statement.executeUpdate("delete from orderitems where (fk_iid ='" + order.getItemId() + " && fk_oid ='" + order.getId() + "'");
 			//this is the correct way to delete an order item from the table
-			return readOrder(order.getId());
-		} catch (Exception e) {
+			//return readOrder(order.getId());
+		} catch (SQLException e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
