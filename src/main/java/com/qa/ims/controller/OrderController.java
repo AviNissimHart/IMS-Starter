@@ -58,20 +58,21 @@ public class OrderController implements CrudController<Order> {
 		 */
 		@Override
 		public Order update() {
+			Order order = null;
 			LOGGER.info("Please enter the id of the order you would like to update");
 			Long id = utils.getLong();
 			LOGGER.info("Would you like to ADDTO or DELFROM this order?");
 			String orderInput = utils.getString();
-			if (orderInput == "ADDTO") {
+			if (orderInput.equalsIgnoreCase("ADDTO")) {
 				LOGGER.info("Enter the itemID of the item you wish to add");
 				Long iid = utils.getLong();
-				Order order = orderDAO.addToOrder(new Order(id, iid));
-				//need to adjust this
-			} else if (orderInput == "DELFROM") {
+				order = orderDAO.addToOrder(id, iid);
+				
+			} else if (orderInput.equalsIgnoreCase("DELFROM")) {
 				LOGGER.info("Enter the itemID of the item you wish to delete");
 				Long iid = utils.getLong();
-				//Order order = orderDAO.delFromOrder(new Order(id, iid));
-				// uncertain
+				order = orderDAO.delFromOrder(id, iid);
+				
 			} else {
 				LOGGER.error("Invalid selection please try again");
 			}
@@ -79,7 +80,7 @@ public class OrderController implements CrudController<Order> {
 			//Long customerId = utils.getLong();
 			//LOGGER.info("Please enter an item id");
 			//Long itemId = utils.getLong();
-			Order order = orderDAO.update(new Order(id));
+			order = orderDAO.update(new Order(id));
 			LOGGER.info("Order Updated");
 			return order;
 		}
