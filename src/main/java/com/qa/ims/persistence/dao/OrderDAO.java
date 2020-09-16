@@ -103,6 +103,8 @@ public class OrderDAO implements Dao<Order> {
 	public Order update(Order order) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
+			//put calc here
+			// add total field to order table
 			statement.executeUpdate("update orders set fk_cid ='" + order.getCustomerId() + "' where oid =" + order.getId());
 			return readOrder(order.getId());
 		} catch (Exception e) {
@@ -133,19 +135,15 @@ public class OrderDAO implements Dao<Order> {
 
 	public Order delFromOrder(Long oid, Long iid) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement("DELETE FROM orderitems (`fk_oid`, `fk_iid`) VALUES (?, ?)");) {
+				PreparedStatement statement = connection.prepareStatement("DELETE FROM orderitems where `fk_oid` = ? && `fk_iid`=?");) {
 			statement.setLong(1, oid);
 			statement.setLong(2, iid);
 			statement.executeUpdate();
-				
-			//statement.executeUpdate("delete from orderitems where (fk_iid ='" + order.getItemId() + " && fk_oid ='" + order.getId() + "'");
-			//this is the correct way to delete an order item from the table
-			//return readOrder(order.getId());
 		} catch (SQLException e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
-		return null;
+		return readOrder(oid);
 	}
 	
 	

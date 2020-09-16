@@ -21,8 +21,9 @@ USE `ims` ;
 CREATE TABLE IF NOT EXISTS `ims`.`orders` (
     `oid` INT(11) NOT NULL AUTO_INCREMENT,
     `fk_cid` INT(11) NOT NULL,
+    `order_total` FLOAT NULL DEFAULT NULL,
     PRIMARY KEY (`oid`),
-    CONSTRAINT (`orders_ibfk_1`) FOREIGN KEY (`fk_cid`) REFERENCES customers(`cid`) 
+    FOREIGN KEY (`fk_cid`) REFERENCES customers(`cid`) 
 );
 
 USE `ims`;
