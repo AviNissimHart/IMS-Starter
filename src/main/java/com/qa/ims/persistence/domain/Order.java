@@ -5,14 +5,16 @@ public class Order {
 	private Long id;
 	private Long customerId;
 	private Long itemId;
+	private float orderTotal;
 	
 	public Order(Long customerId) {
 		this.setCustomerId(customerId);
 	}
 	
-	public Order(Long id, Long customerId) {
+	public Order(Long id, Long customerId, float orderTotal) {
 		this.setId(id);
 		this.setCustomerId(customerId);
+		this.setOrderTotal(orderTotal);
 	}
 	
 //	public Order(Long id, Long itemId) {
@@ -46,9 +48,17 @@ public class Order {
 		this.itemId = itemId;
 	}
 
+	public float getOrderTotal() {
+		return orderTotal;
+	}
+
+	public void setOrderTotal(float orderTotal) {
+		this.orderTotal = orderTotal;
+	}
+
 	@Override
 	public String toString() {
-		return "Order [order id=" + id + ", customerId=" + customerId + "]" +  "\n  Items [item id=" + itemId + "]";
+		return "Order [order id=" + id + ", customerId=" + customerId + " total=" + orderTotal + "]" +  "\n  Items [item id=" + itemId + "]";
 	}
 	
 
