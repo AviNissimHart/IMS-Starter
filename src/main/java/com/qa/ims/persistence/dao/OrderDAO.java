@@ -124,12 +124,15 @@ public class OrderDAO implements Dao<Order> {
 			statement.setLong(1, oid);
 			statement.setLong(2, iid);
 			statement.executeUpdate();
+			
+			
 			//this should be the correct way to insert it
 			
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
+		
 		return readOrder(oid);
 	}
 	

@@ -68,11 +68,13 @@ public class OrderController implements CrudController<Order> {
 				LOGGER.info("Enter the itemID of the item you wish to add");
 				Long iid = utils.getLong();
 				order = orderDAO.addToOrder(id, iid);
+				order = orderDAO.update(order);
 				
 			} else if (orderInput.equalsIgnoreCase("DELFROM")) {
 				LOGGER.info("Enter the itemID of the item you wish to delete");
 				Long iid = utils.getLong();
 				order = orderDAO.delFromOrder(id, iid);
+				order = orderDAO.update(order);
 				
 			} else {
 				LOGGER.error("Invalid selection please try again");
