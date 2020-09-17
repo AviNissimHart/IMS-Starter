@@ -37,7 +37,7 @@ public class OrderDAO implements Dao<Order> {
 	public List<Order> readAll() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("select oid, fk_cid, fk_iid, order_total from orders, orderitems where orders.oid = orderitems.fk_oid;");) {
+				ResultSet resultSet = statement.executeQuery("select oid, fk_cid, fk_iid, order_total from orders, orderitems where orders.oid = orderitems.fk_oid; ");) {
 			List<Order> orders = new ArrayList<>();
 			while (resultSet.next()) {
 				orders.add(modelFromResultSet(resultSet));
@@ -53,7 +53,8 @@ public class OrderDAO implements Dao<Order> {
 	public Order readLatest() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders ORDER BY oid DESC LIMIT 1");) {
+				//update orders set order_total = (select sum(price) from items, orderitems where iid = orderitems.fk_iid && orderitems.fk_oid = oid) where oid = fk_oid; maybe?
+				ResultSet resultSet = statement.executeQuery(" SELECT * FROM orders ORDER BY oid DESC LIMIT 1");) {
 			resultSet.next();
 			return modelFromResultSet(resultSet);
 		} catch (Exception e) {
@@ -163,11 +164,11 @@ public class OrderDAO implements Dao<Order> {
 	 *                 calculate that order in the database
 	 * @return
 	 */
-//	@Override
-//	public Order calculate(Order order) {
+	
+//	public Order calculate(Long oid) {
 //		try (Connection connection = DBUtils.getInstance().getConnection();
 //				Statement statement = connection.createStatement();) {
-//			statement.executeUpdate("update orders set fk_cid ='" + order.getCustomerId() + "' where oid =" + order.getId());
+//			statement.executeUpdate("update orders set order_total = (select sum(price) from items, orderitems where iid = orderitems.fk_iid && orderitems.fk_oid =" + order.getId() + ") where oid ="+ order.getId());
 //			return readOrder(order.getId());
 //		} catch (Exception e) {
 //			LOGGER.debug(e);

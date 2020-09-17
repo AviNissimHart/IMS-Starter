@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `ims`.`orders` (
     `fk_cid` INT(11) NOT NULL,
     `order_total` FLOAT NULL DEFAULT NULL,
     PRIMARY KEY (`oid`),
-    FOREIGN KEY (`fk_cid`) REFERENCES customers(`cid`) 
+    CONSTRAINT FOREIGN KEY (`fk_cid`) REFERENCES customers(`cid`)  ON DELETE CASCADE
 );
 
 USE `ims`;
@@ -32,6 +32,6 @@ CREATE TABLE IF NOT EXISTS `ims`.`orderItems` (
     `fk_oid` INT(11) NOT NULL,
     `fk_iid` INT(11) NOT NULL,
     PRIMARY KEY (`oiid`),
-    FOREIGN KEY (`fk_oid`) REFERENCES orders(`oid`),
-    FOREIGN KEY (`fk_iid`) REFERENCES items(`iid`)
+    CONSTRAINT FOREIGN KEY (`fk_oid`) REFERENCES orders(`oid`) ON DELETE CASCADE,
+    CONSTRAINT FOREIGN KEY (`fk_iid`) REFERENCES items(`iid`) ON DELETE CASCADE
 );
