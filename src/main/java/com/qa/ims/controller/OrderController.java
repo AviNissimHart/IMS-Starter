@@ -46,10 +46,10 @@ public class OrderController implements CrudController<Order> {
 		public Order create() {
 			LOGGER.info("Please enter a customer id");
 			Long customerId = utils.getLong();
-			LOGGER.info("Please enter an item id");
-			Long itemId = utils.getLong();
-			float orderTotal = utils.getFloat();
-			Order order = orderDAO.create(new Order(customerId, itemId, orderTotal));
+			//LOGGER.info("Please enter an item id");
+			//Long itemId = utils.getLong();
+			//float orderTotal = utils.getFloat();
+			Order order = orderDAO.create(new Order(customerId));
 			LOGGER.info("Order created");
 			return order;
 		}
