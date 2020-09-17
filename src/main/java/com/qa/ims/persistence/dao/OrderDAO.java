@@ -23,7 +23,7 @@ public class OrderDAO implements Dao<Order> {
 		Long customerId = resultSet.getLong("fk_cid");
 		float orderTotal = resultSet.getFloat("order_total");
 		Long itemId = resultSet.getLong("fk_iid");
-		return new Order(id, customerId, orderTotal);
+		return new Order(id, customerId, orderTotal, itemId);
 	}
 	
 	/**
@@ -35,7 +35,7 @@ public class OrderDAO implements Dao<Order> {
 	public List<Order> readAll() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("select * from orders");) {
+				ResultSet resultSet = statement.executeQuery("select oid, fk_cid, fk_iid, order_total from orders, orderitems where orders.oid = orderitems.fk_oid;");) {
 			List<Order> orders = new ArrayList<>();
 			while (resultSet.next()) {
 				orders.add(modelFromResultSet(resultSet));
@@ -82,6 +82,7 @@ public class OrderDAO implements Dao<Order> {
 
 	//select fk_iid from orderitems where fk_oid = 2;
 	// this will get all item ids associated with an order - use for read order
+	//translates as: ; select fk_iid from orderitems where fk_oid =" + id
 	public Order readOrder(Long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
