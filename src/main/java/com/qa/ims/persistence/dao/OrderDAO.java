@@ -31,6 +31,8 @@ public class OrderDAO implements Dao<Order> {
 	 * 
 	 * @return A list of orders
 	 */
+	
+	//select oid, fk_cid, fk_iid, order_total from orders, orderitems where orders.oid = orderitems.fk_oid; this will include the item ids
 	@Override
 	public List<Order> readAll() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
