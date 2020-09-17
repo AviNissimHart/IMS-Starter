@@ -1,6 +1,10 @@
 drop schema ims;
 CREATE SCHEMA IF NOT EXISTS `ims`;
 USE `ims` ;
+drop table orderitems;
+drop table orders;
+drop table items;
+drop table customers;
 CREATE TABLE IF NOT EXISTS `ims`.`customers` (
     `cid` INT(11) NOT NULL AUTO_INCREMENT,
     `first_name` VARCHAR(40) NULL DEFAULT NULL,

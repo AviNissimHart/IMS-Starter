@@ -38,9 +38,13 @@ public class IMS {
 
 	public void imsSystem() {
 		LOGGER.info("Welcome to the Inventory Management System!");
-		DBUtils.connect("src/main/resources/db.properties");
-		DBUtils.getInstance().init("src/main/resources/sql-schema.sql", "src/main/resources/sql-data.sql");
 
+		LOGGER.info("Enter username");
+		String username = utils.getString();
+		LOGGER.info("Enter pass");
+		String password = utils.getString();
+		DBUtils.connect(username, password);
+		
 		Domain domain = null;
 		do {
 			LOGGER.info("Which entity would you like to use?");
