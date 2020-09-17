@@ -12,7 +12,14 @@ INSERT INTO `ims`.`orders` (`fk_cid`) VALUES ('1');
 INSERT INTO `ims`.`orders` (`fk_cid`) VALUES ('2');
 
 
+
 INSERT INTO `ims`.`orderitems` (`fk_oid`, `fk_iid`) VALUES ('2','1');
 INSERT INTO `ims`.`orderitems` (`fk_oid`, `fk_iid`) VALUES ('2','2');
 INSERT INTO `ims`.`orderitems` (`fk_oid`, `fk_iid`) VALUES ('2','5');
 INSERT INTO `ims`.`orderitems` (`fk_oid`, `fk_iid`) VALUES ('2','5');
+INSERT INTO `ims`.`orderitems` (`fk_oid`, `fk_iid`) VALUES ('1','5');
+INSERT INTO `ims`.`orderitems` (`fk_oid`, `fk_iid`) VALUES ('1','3');
+
+
+update orders set order_total = (select sum(price) from items, orderitems where iid = orderitems.fk_iid && orderitems.fk_oid = 1) where oid = 1;
+update orders set order_total = (select sum(price) from items, orderitems where iid = orderitems.fk_iid && orderitems.fk_oid = 2) where oid = 2;
