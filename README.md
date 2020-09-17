@@ -1,7 +1,14 @@
 Coverage: 34%
 # Project Title
 Avi Nissim-Hart
-One Paragraph of project description goes here
+
+This project is an Inventory Managment System. Its purpose is to have customers, items, and orders made by customers
+all linked together. It uses a database in MYSQL with 4 tables which all connect to each other accordingly using 
+foreign keys. 
+The functionality of the project is that you can create customers, new items, orders and then make changes.
+You can also change items, change customers, delete items and orders, add items to orders,
+and of course - read orders. The purpose of this project is to showcase the skills i have learnt while
+training at the academy.
 
 ## Getting Started
 
@@ -11,9 +18,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 What things you need to install the software and how to install them
 
-```
-Give examples
-```
+https://github.com/AviNissimHart/IMS-Starter.git
+Above is a link to my github project. You will want to clone this from the master branch. Alternatively, you can always just download the ZIP file as this will contain everything you need.
 
 ### Installing
 
@@ -21,17 +27,25 @@ A step by step series of examples that tell you how to get a development env run
 
 Say what the step will be
 
-```
-Give the example
-```
+If you have cloned the repository, you already know what you are doing. If you have downloaded the zip file, you will need some help to set up here.
 
-And repeat
+Firstly, you will need to unzip / extract the files from the zip folder.
+Next, you will need to open your eclipse, select file > open projects from file system
+here you must find the file path of the unzipped folder and select it to open.
 
-```
-until finished
-```
+Once this has been opened, you will see the project in your package explorer.
+Select the file "Runner" within src/main/java in hte com.qa.ims package
+Before you do anything else, you must now go to mysql within the command line interface, log in, and create a table called ims
 
-End with an example of getting some data out of the system or using it for a little demo
+Going back to the eclipse window, go into db.properties within src/main/resources
+
+in there, you will want to change the details to match your mysql e.g. user and password
+
+
+Now, if you click on the green button at the top of the screen to run the program, it will use the ims database you created,
+and it will create the required tables for the program to use.
+
+
 
 ## Running the tests
 
@@ -70,7 +84,7 @@ Add additional notes about how to deploy this on a live system
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning.
+We use [GitHub](http://github.com/) for versioning.
 
 ## Authors
 
@@ -85,5 +99,5 @@ This project is licensed under the MIT license - see the [LICENSE.md](LICENSE.md
 ## Acknowledgments
 
 * Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* My trainer Nick for helping me when i was stuck
+* Shafeeq for helping me with sql issues
