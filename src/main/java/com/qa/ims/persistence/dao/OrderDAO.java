@@ -22,7 +22,7 @@ public class OrderDAO implements Dao<Order> {
 		Long id = resultSet.getLong("oid");
 		Long customerId = resultSet.getLong("fk_cid");
 		float orderTotal = resultSet.getFloat("order_total");
-		//Long itemId = resultSet.getLong("fk_iid");
+		Long itemId = resultSet.getLong("fk_iid");
 		return new Order(id, customerId, orderTotal);
 	}
 	
@@ -80,6 +80,8 @@ public class OrderDAO implements Dao<Order> {
 		return null;
 	}
 
+	//select fk_iid from orderitems where fk_oid = 2;
+	// this will get all item ids associated with an order - use for read order
 	public Order readOrder(Long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
