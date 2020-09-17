@@ -22,6 +22,13 @@ public class Order {
 //		this.setItemId(itemId);
 //	}
 
+	public Order(Long id, Long customerId, float orderTotal, Long itemId) {
+		this.setId(id);
+		this.setCustomerId(customerId);
+		this.setOrderTotal(orderTotal);
+		this.setItemId(itemId);
+	}
+
 	public Long getId() {
 		return id;
 	}
