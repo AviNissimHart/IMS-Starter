@@ -45,26 +45,31 @@ in there, you will want to change the details to match your mysql e.g. user and 
 Now, if you click on the green button at the top of the screen to run the program, it will use the ims database you created,
 and it will create the required tables for the program to use.
 
+User= root
+Password = rootroot
+
 
 
 ## Running the tests
 
-Explain how to run the automated tests for this system. Break down into which tests and what they do
+
+If you go into the test package, you will see various tests that can be run. You can run each one individually or you can do them all together.
+This can be done by right clicking the test class you want and selecting run as JUnit test
+I have a test for the customerDAO and the itemDAO that work properly. This is to test feeding in data to the system and then testing all the 
+features implemented to ensure they work as intended. This actually applies to all my tests.
 
 ### Unit Tests 
 
-Explain what these tests test, why and how to run them
 
-```
-Give an example
-```
+These tests are used to feed in data to the system, run the program and then compare the results with the results expected (also added in) 
+and the unit tests will tell you which tests passed and show the expected result against the actual results if failed
 
 ### Integration Tests 
 Explain what these tests test, why and how to run them
 
-```
-Give an example
-```
+This will test the whole project all togehter. This can be done by right clicking the package in the package explorer,
+and selecting run as > junit test. This will then test everything all together and provide you with a breakdown of the 
+tests that passed and failed. The failed tests will show you why in the junit console at the bottom of your screen
 
 ### And coding style tests
 
@@ -76,7 +81,9 @@ Give an example
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+In order to make this easier for you, i have incuded a .jar file with the dependencies which should sort it all out for you.
+The only issue you may have is with your MYSQL. If there is not already an ims database, you may need to create one for it to work. Furthermore, you may need to change the database properties 
+so that it can connect to your sql as the current setup is to connect to my computer.
 
 ## Built With
 
@@ -98,6 +105,6 @@ This project is licensed under the MIT license - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
+* Hat tip to anyone whose code was used - Chris Perrins and Jordan Harrison
 * My trainer Nick for helping me when i was stuck
 * Shafeeq for helping me with sql issues
