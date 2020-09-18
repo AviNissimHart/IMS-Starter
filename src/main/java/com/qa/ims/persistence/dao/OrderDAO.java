@@ -145,7 +145,7 @@ public class OrderDAO implements Dao<Order> {
 
 	public Order delFromOrder(Long oid, Long iid) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement("DELETE FROM orderitems where `fk_oid` = ? && `fk_iid`=?");) {
+				PreparedStatement statement = connection.prepareStatement("DELETE FROM orderitems where `fk_oid` = ? && `fk_iid` = ?");) {
 			statement.setLong(1, oid);
 			statement.setLong(2, iid);
 			statement.executeUpdate();

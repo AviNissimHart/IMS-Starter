@@ -25,6 +25,7 @@ public class DBUtils {
 		this.DB_USER = username;
 		this.DB_PASS = password;
 	}
+	
 
 	public int init() {
 		return this.init("src/main/resources/sql-schema.sql", "src/main/resources/sql-data.sql");
@@ -70,6 +71,8 @@ public class DBUtils {
 		instance = new DBUtils(username, password);
 		return instance;
 	}
+	
+	
 
 	public static DBUtils getInstance() {
 		if (instance == null) {
