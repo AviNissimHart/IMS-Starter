@@ -1,6 +1,7 @@
 package com.qa.ims.persistence.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,8 +21,9 @@ public class OrderDAO implements Dao<Order> {
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
 		Long id = resultSet.getLong("oid");
 		Long customerId = resultSet.getLong("fk_cid");
+		float orderTotal = resultSet.getFloat("order_total");
 		Long itemId = resultSet.getLong("fk_iid");
-		return new Order(id, customerId, itemId);
+		return new Order(id, customerId, orderTotal, itemId);
 	}
 	
 	/**
@@ -29,11 +31,13 @@ public class OrderDAO implements Dao<Order> {
 	 * 
 	 * @return A list of orders
 	 */
+	
+	//select oid, fk_cid, fk_iid, order_total from orders, orderitems where orders.oid = orderitems.fk_oid; this will include the item ids
 	@Override
 	public List<Order> readAll() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("select * from orders");) {
+				ResultSet resultSet = statement.executeQuery("select oid, fk_cid, fk_iid, order_total from orders, orderitems where orders.oid = orderitems.fk_oid; ");) {
 			List<Order> orders = new ArrayList<>();
 			while (resultSet.next()) {
 				orders.add(modelFromResultSet(resultSet));
@@ -49,7 +53,8 @@ public class OrderDAO implements Dao<Order> {
 	public Order readLatest() {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders ORDER BY oid DESC LIMIT 1");) {
+				//update orders set order_total = (select sum(price) from items, orderitems where iid = orderitems.fk_iid && orderitems.fk_oid = oid) where oid = fk_oid; maybe?
+				ResultSet resultSet = statement.executeQuery(" SELECT * FROM orders ORDER BY oid DESC LIMIT 1");) {
 			resultSet.next();
 			return modelFromResultSet(resultSet);
 		} catch (Exception e) {
@@ -68,8 +73,8 @@ public class OrderDAO implements Dao<Order> {
 	public Order create(Order order) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("INSERT INTO orders(fk_cid, fk_iid) values('" + order.getCustomerId()
-					+ "','" + order.getItemId() + "')");
+			statement.executeUpdate("INSERT INTO orders(fk_cid) values('" + order.getCustomerId()
+					+ "')");
 			return readLatest();
 		} catch (Exception e) {
 			LOGGER.debug(e);
@@ -78,6 +83,9 @@ public class OrderDAO implements Dao<Order> {
 		return null;
 	}
 
+	//select fk_iid from orderitems where fk_oid = 2;
+	// this will get all item ids associated with an order - use for read order
+	//translates as: ; select fk_iid from orderitems where fk_oid =" + id
 	public Order readOrder(Long id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
@@ -102,7 +110,9 @@ public class OrderDAO implements Dao<Order> {
 	public Order update(Order order) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("update orders set fk_cid ='" + order.getCustomerId() + "' where oid =" + order.getId());
+			//put calc here
+			//update orders set order_total = (select sum(price) from items, orderitems where iid = orderitems.fk_iid && orderitems.fk_oid = 1) where oid = 1;
+			statement.executeUpdate("update orders set order_total = (select sum(price) from items, orderitems where iid = orderitems.fk_iid && orderitems.fk_oid =" + order.getId() +") where oid ="+ order.getId());
 			return readOrder(order.getId());
 		} catch (Exception e) {
 			LOGGER.debug(e);
@@ -110,6 +120,43 @@ public class OrderDAO implements Dao<Order> {
 		}
 		return null;
 	}
+	
+	//i dont know if this will work but i think the logic is there
+	//PreparedStatement statement = connection.prepareStatement("INSERT INTO orderline (order_id, item_id) VALUES (?, ?)");
+
+	public Order addToOrder(Long oid, Long iid) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement("INSERT INTO orderitems (`fk_oid`, `fk_iid`) VALUES (?, ?)");) {
+			statement.setLong(1, oid);
+			statement.setLong(2, iid);
+			statement.executeUpdate();
+			
+			
+			//this should be the correct way to insert it
+			
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		
+		return readOrder(oid);
+	}
+	
+
+	public Order delFromOrder(Long oid, Long iid) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement("DELETE FROM orderitems where `fk_oid` = ? && `fk_iid` = ?");) {
+			statement.setLong(1, oid);
+			statement.setLong(2, iid);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return readOrder(oid);
+	}
+	
+	
 	/**
 	 * Calculates cost of an order in the database
 	 * 
@@ -117,11 +164,11 @@ public class OrderDAO implements Dao<Order> {
 	 *                 calculate that order in the database
 	 * @return
 	 */
-//	@Override
-//	public Order calculate(Order order) {
+	
+//	public Order calculate(Long oid) {
 //		try (Connection connection = DBUtils.getInstance().getConnection();
 //				Statement statement = connection.createStatement();) {
-//			statement.executeUpdate("update orders set fk_cid ='" + order.getCustomerId() + "' where oid =" + order.getId());
+//			statement.executeUpdate("update orders set order_total = (select sum(price) from items, orderitems where iid = orderitems.fk_iid && orderitems.fk_oid =" + order.getId() + ") where oid ="+ order.getId());
 //			return readOrder(order.getId());
 //		} catch (Exception e) {
 //			LOGGER.debug(e);

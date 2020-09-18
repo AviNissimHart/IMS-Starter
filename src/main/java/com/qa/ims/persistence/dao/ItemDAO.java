@@ -100,7 +100,7 @@ public class ItemDAO implements Dao<Item> {
 	public Item update(Item item) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("update items set item_name ='" + item.getItemName() + "' where iid =" + item.getId());
+			statement.executeUpdate("update items set item_name ='" + item.getItemName() + "', price ='" + item.getPrice() + "' where iid =" + item.getId());
 			return readItem(item.getId());
 		} catch (Exception e) {
 			LOGGER.debug(e);

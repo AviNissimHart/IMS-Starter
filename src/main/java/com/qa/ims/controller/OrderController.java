@@ -46,9 +46,10 @@ public class OrderController implements CrudController<Order> {
 		public Order create() {
 			LOGGER.info("Please enter a customer id");
 			Long customerId = utils.getLong();
-			LOGGER.info("Please enter an item id");
-			Long itemId = utils.getLong();
-			Order order = orderDAO.create(new Order(customerId, itemId));
+			//LOGGER.info("Please enter an item id");
+			//Long itemId = utils.getLong();
+			//float orderTotal = utils.getFloat();
+			Order order = orderDAO.create(new Order(customerId));
 			LOGGER.info("Order created");
 			return order;
 		}
@@ -58,17 +59,39 @@ public class OrderController implements CrudController<Order> {
 		 */
 		@Override
 		public Order update() {
+			Order order = null;
 			LOGGER.info("Please enter the id of the order you would like to update");
 			Long id = utils.getLong();
-			LOGGER.info("Please enter a customer id");
-			Long customerId = utils.getLong();
-			LOGGER.info("Please enter an item id");
-			Long itemId = utils.getLong();
-			Order order = orderDAO.update(new Order(id, customerId, itemId));
+			LOGGER.info("Would you like to ADDTO or DELFROM this order?");
+			String orderInput = utils.getString();
+			if (orderInput.equalsIgnoreCase("ADDTO")) {
+				LOGGER.info("Enter the itemID of the item you wish to add");
+				Long iid = utils.getLong();
+				order = orderDAO.addToOrder(id, iid);
+				order = orderDAO.update(order);
+				
+			} else if (orderInput.equalsIgnoreCase("DELFROM")) {
+				LOGGER.info("Enter the itemID of the item you wish to delete");
+				Long iid = utils.getLong();
+				order = orderDAO.delFromOrder(id, iid);
+				order = orderDAO.update(order);
+				
+			} else {
+				LOGGER.error("Invalid selection please try again");
+			}
+			
+			//Long customerId = utils.getLong();
+			//LOGGER.info("Please enter an item id");
+			//Long itemId = utils.getLong();
+			order = orderDAO.update(new Order(id));
 			LOGGER.info("Order Updated");
 			return order;
 		}
 		
+//		public Order addToOrder() {
+//			
+//		}
+//		
 		/**
 		 * calculates total of an existing order by taking in user input
 		 */

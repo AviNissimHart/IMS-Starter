@@ -35,6 +35,8 @@ public class CustomerDAO implements Dao<Customer> {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery("select * from customers");) {
+//			ResultSetMetaData rsmd = resultSet.getMetaData();
+//			System.out.println(rsmd.getColumnName(1));
 			List<Customer> customers = new ArrayList<>();
 			while (resultSet.next()) {
 				customers.add(modelFromResultSet(resultSet));
@@ -79,10 +81,10 @@ public class CustomerDAO implements Dao<Customer> {
 		return null;
 	}
 
-	public Customer readCustomer(Long id) {
+	public Customer readCustomer(Long cid) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM customers where cid = " + id);) {
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM customers where cid = " + cid);) {
 			resultSet.next();
 			return modelFromResultSet(resultSet);
 		} catch (Exception e) {
@@ -104,8 +106,8 @@ public class CustomerDAO implements Dao<Customer> {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
 			statement.executeUpdate("update customers set first_name ='" + customer.getFirstName() + "', surname ='"
-					+ customer.getSurname() + "' where cid =" + customer.getId());
-			return readCustomer(customer.getId());
+					+ customer.getSurname() + "' where cid =" + customer.getCid());
+			return readCustomer(customer.getCid());
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
@@ -116,13 +118,13 @@ public class CustomerDAO implements Dao<Customer> {
 	/**
 	 * Deletes a customer in the database
 	 * 
-	 * @param id - id of the customer
+	 * @param cid - id of the customer
 	 */
 	@Override
-	public int delete(long id) {
+	public int delete(long cid) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
-			return statement.executeUpdate("delete from customers where cid = " + id);
+			return statement.executeUpdate("delete from customers where cid = " + cid);
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
