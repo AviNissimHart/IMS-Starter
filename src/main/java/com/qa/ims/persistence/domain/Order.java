@@ -17,10 +17,10 @@ public class Order {
 		this.setOrderTotal(orderTotal);
 	}
 	
-//	public Order(Long id, Long itemId) {
-//		this.setId(id);
-//		this.setItemId(itemId);
-//	}
+	public Order(Long id, Long itemId) {
+		this.setId(id);
+		this.setItemId(itemId);
+	}
 
 	public Order(Long id, Long customerId, float orderTotal, Long itemId) {
 		this.setId(id);
