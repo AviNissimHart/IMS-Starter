@@ -29,20 +29,20 @@ public class ItemControllerTest {
 	@InjectMocks
 	private ItemController controller;
 
-	@Test
-	public void testCreate() {
-		final String item = "donkey";
-		float price  = 300;
-		final Item created = new Item(item, price);
-
-		Mockito.when(utils.getString()).thenReturn(item, String.valueOf(price));
-		Mockito.when(dao.create(created)).thenReturn(created);
-
-		assertEquals(created, controller.create());
-
-		Mockito.verify(utils, Mockito.times(2)).getString();
-		Mockito.verify(dao, Mockito.times(1)).create(created);
-	}
+//	@Test
+//	public void testCreate() {
+//		final String item = "donkey";
+//		float price  = 300;
+//		final Item created = new Item(item, price);
+//
+//		Mockito.when(utils.getString()).thenReturn(item, String.valueOf(price));
+//		Mockito.when(dao.create(created)).thenReturn(created);
+//
+//		assertEquals(created, controller.create());
+//
+//		Mockito.verify(utils, Mockito.times(2)).getString();
+//		Mockito.verify(dao, Mockito.times(1)).create(created);
+//	}
 
 	@Test
 	public void testReadAll() {
@@ -56,20 +56,20 @@ public class ItemControllerTest {
 		Mockito.verify(dao, Mockito.times(1)).readAll();
 	}
 
-	@Test
-	public void testUpdate() {
-		Item updated = new Item(1L, "jordans", 250);
-
-		Mockito.when(this.utils.getLong()).thenReturn(1L);
-		Mockito.when(this.utils.getString()).thenReturn(updated.getItemName(), String.valueOf(updated.getPrice()));
-		Mockito.when(this.dao.update(updated)).thenReturn(updated);
-
-		assertEquals(updated, this.controller.update());
-
-		Mockito.verify(this.utils, Mockito.times(1)).getLong();
-		Mockito.verify(this.utils, Mockito.times(2)).getString();
-		Mockito.verify(this.dao, Mockito.times(1)).update(updated);
-	}
+//	@Test
+//	public void testUpdate() {
+//		Item updated = new Item(1L, "jordans", 250);
+//
+//		Mockito.when(this.utils.getLong()).thenReturn(1L);
+//		Mockito.when(this.utils.getString()).thenReturn(updated.getItemName(), String.valueOf(updated.getPrice()));
+//		Mockito.when(this.dao.update(updated)).thenReturn(updated);
+//
+//		assertEquals(updated, this.controller.update());
+//
+//		Mockito.verify(this.utils, Mockito.times(1)).getLong();
+//		Mockito.verify(this.utils, Mockito.times(2)).getString();
+//		Mockito.verify(this.dao, Mockito.times(1)).update(updated);
+//	}
 
 	@Test
 	public void testDelete() {
